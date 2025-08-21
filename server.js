@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+require('dotenv').config();
+
 const connectDB = require('./config/db');
 
 const sessionMiddleware = require('./middleware/session');
@@ -7,7 +9,8 @@ const errorHandler = require('./middleware/errorHandler');
 const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
-const PORT = 1512;
+const PORT = process.env.PORT || 1512;
+
 
 // Connect to DB
 connectDB();
@@ -32,19 +35,19 @@ app.use('/users', authMiddleware, require('./routes/userList.js'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.get('/ping', (req, res) => res.send('pong 🏓'));
 
-//admin page
-
-// app.use('/admin', require('./routes/admin.js'))
 
 // 404 fallback
 app.use((req, res) => {
   res.status(404).send('404 Error: Page not found');
 });
 
+
+
 // Global error handler
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`✅ YOUR APP RUNNING ON http://localhost:${PORT}`);
+ app.listen(PORT, () => console.log(`✅ Server running on ${PORT}`));
 });

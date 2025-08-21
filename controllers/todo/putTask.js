@@ -10,9 +10,9 @@ const putTask = async (req, res) => {
       { new: true }
     );
 
-    // if (!updatedTask) {
-    //   return res.status(404).json({ error: 'Task not found' });
-    // }
+    if (!updatedTask) {
+      return res.status(404).json({ error: 'Task not found' }); //uncommented
+    }
 
     const taskList = await Tasks.find({ userId });
     res.status(200).json(taskList);
