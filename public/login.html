@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Todo | Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #fff8f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #ff7b25;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #ff7b25;
+        }
+        
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff7b25;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #ff6a00;
+        }
+        
+        .toggle-form {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .toggle-form a {
+            color: #ff7b25;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .toggle-form a:hover {
+            text-decoration: underline;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Form -->
+        <div class="card" id="login-card">
+            <h1>Login</h1>
+            <form method="POST" action="/login">
+                <div class="form-group">
+                    <label for="user">Username</label>
+                    <input type="text" name="username" id="user" 
+                   required placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="pass">Password</label>
+                    <input type="password" name="password" required id="pass" placeholder="Enter your password">
+                </div>
+                <button type="submit" id="btn">Login</button>
+            </form>
+            <div class="toggle-form">
+                Don't have an account? <a id="show-register">Create account</a>
+            </div>
+        </div>
+        
+        <!-- Register Form -->
+        <div class="card hidden" id="register-card">
+            <h1>Create Account</h1>
+            <form method="POST" action="/register" autocomplete="off">
+                <div class="form-group">
+                    <label for="new-user">Username</label>
+                    <input type="text" name="username" id="new-user" placeholder="Choose a username">
+                </div>
+                <div class="form-group">
+                    <label for="new-pass">Password</label>
+                    <input type="password" name="password" id="new-pass" placeholder="Choose a password">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-pass">Confirm Password</label>
+                    <input type="password" name="confirm-password" id="confirm-pass" placeholder="Confirm your password">
+                </div>
+                <button type="submit" id="register-btn">Create Account</button>
+            </form>
+            <div class="toggle-form">
+                Already have an account? <a id="show-login">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+//           
+
+// =========================
+// REDIRECT IF ALREADY LOGGED IN
+// =========================
+async function checkLogin() {
+  const res = await fetch('/login/status', {
+    method: 'GET',
+    credentials: 'include'
+  });
+
+  const data = await res.json();
+
+  if (data.loggedIn) {
+    window.location.href = '/todo.html';
+  }
+}
+
+checkLogin();
+
+// =========================
+// TOGGLE LOGIN/REGISTER FORMS
+// =========================
+document.getElementById('show-register').addEventListener('click', () => {
+  document.getElementById('login-card').classList.add('hidden');
+  document.getElementById('register-card').classList.remove('hidden');
+});
+
+document.getElementById('show-login').addEventListener('click', () => {
+  document.getElementById('register-card').classList.add('hidden');
+  document.getElementById('login-card').classList.remove('hidden');
+});
+
+// =========================
+// LOGIN
+// =========================
+document.getElementById('btn').addEventListener('click', async () => {
+  const username = document.getElementById('user').value;
+  const password = document.getElementById('pass').value;
+
+  try {
+    const res = await fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include', // send cookies!
+      body: JSON.stringify({ username, password })
+    });
+
+    if (res.ok) {
+      window.location.href = '/todo.html';
+    } else {
+      const data = await res.json();
+      alert(data.msg || 'Login failed');
+    }
+  } catch (err) {
+    console.error('Login error:', err);
+  }
+});
+
+// =========================
+// REGISTER
+// =========================
+document.getElementById('register-btn').addEventListener('click', async () => {
+  const username = document.getElementById('new-user').value;
+  const password = document.getElementById('new-pass').value;
+  const confirmPass = document.getElementById('confirm-pass').value;
+
+  if (password.length < 8) {
+    alert("Password should be at least 8 characters");
+    return;
+  }
+  if (username.length < 5) {
+    alert("Username should be at least 5 characters");
+    return;
+  }
+  if (password !== confirmPass) {
+    alert("Passwords don't match!");
+    return;
+  }
+
+  try {
+    const res = await fetch('/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ username, password })
+    });
+
+    if (res.ok) {
+      alert("Account created successfully! Please login.");
+      document.getElementById('register-card').classList.add('hidden');
+      document.getElementById('login-card').classList.remove('hidden');
+    } else {
+      const data = await res.json();
+      alert(data.msg || 'Registration failed');
+    }
+  } catch (err) {
+    console.error('Register error:', err);
+  }
+});
+
+ </script>
+</body>
+</html>
+
