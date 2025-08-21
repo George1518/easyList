@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //admin page
 
-app.use('/admin', require('./routes/admin.js'))
+// app.use('/admin', require('./routes/admin.js'))
 
 // 404 fallback
 app.use((req, res) => {

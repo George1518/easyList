@@ -2,24 +2,10 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const User = require('../models/users');
+const userValidation = require('../controllers/auth/userValidation');
 
 // POST /login → authenticate
-router.post('/', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username, password });
-
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid username or password' });
-    }
-
-    req.session.userId = user._id;
-    res.json({ msg: 'Login successful' });
-  } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+router.post('/',  userValidation)
 
 // ✅ GET /login/status → check session
 router.get('/status', (req, res) => {

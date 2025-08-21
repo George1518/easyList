@@ -4,14 +4,8 @@ const getTasks = require('../controllers/todo/getTasks');
 const deleteTask = require('../controllers/todo/deleteTask');
 const postTask = require('../controllers/todo/postTask');
 const putTask = require('../controllers/todo/putTask');
+const authMiddleware = require('../middleware/authMiddleware')
 
-// Middleware to ensure user is logged in
-function authMiddleware(req, res, next) {
-  if (!req.session.userId) {
-    return res.status(401).json({ msg: 'Unauthorized' });
-  }
-  next();
-}
 
 router.use(express.json());
 
