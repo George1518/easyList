@@ -25,7 +25,7 @@ Built with simplicity in mind – **log in, add tasks, mark them done, stay prod
 ## 🌍 Live Demo
 👉 [Try easyList here](https://easylist-minm.onrender.com/)  
 
-*(hosted on Koyeb/Render with MongoDB Atlas)*  
+*(hosted on Render with MongoDB Atlas)*  
 
 ---
 
