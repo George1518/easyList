@@ -25,7 +25,7 @@
         }
         
         #h1 {
-            color: #ff7b25;
+            color: #ff9b00;
             font-weight: 600;
             font-size: 2.5rem;
             flex-grow: 1;
@@ -33,22 +33,22 @@
         }
         
         #logout {
-            background-color: #ff7b25;
-            color: white;
             border: none;
-            border-radius: 6px;
-            padding: 10px 20px;
-            font-size: 16px;
+            border-radius: 100px;
             cursor: pointer;
             transition: all 0.3s ease;
             order: 2;
-            flex-shrink: 0;
+            
         }
         
         #logout:hover {
-            background-color: #ff6a00;
+           
             transform: translateY(-1px);
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+         #logout img  {
+            width: 40px;
+            height: 40px;
         }
         
         #inputSection {
@@ -68,16 +68,17 @@
         
         #addTask:focus {
             outline: none;
-            border-color: #ff7b25;
+            border-color: #ff9b00;;
         }
         
         #submitBtn {
-            background-color: rgb(0, 100, 67);
+           background-color: #ff7c253b;
             color: white;
             border: none;
             border-radius: 6px;
             width: 50px;
             height: 50px;
+            border-radius: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -86,12 +87,13 @@
         }
         
         #submitBtn:hover {
-            background-color: #858dca;
+            background-color: #ff7c2554;
         }
         
         #submitBtn img {
             width: 24px;
             height: 24px;
+            filter: contrast(11.1);
         }
         
         #listContainer {
@@ -121,19 +123,20 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            padding: 5px;
         }
         
         .checkbox {
             width: 18px;
             height: 18px;
-            accent-color: #ff7b25;
+            accent-color:#ff9b00;
             cursor: pointer;
         }
         
         .button {
             background: none;
             border: none;
-            color: #ff7b25;
+            color: #ff9b00;
             font-size: 16px;
             cursor: pointer;
             padding: 5px;
@@ -157,28 +160,21 @@
             }
             
             #header {
-                flex-direction: column;
+                flex-direction: row;
                 gap: 15px;
             }
             
-            #h1 {
-                font-size: 2rem;
-                order: 1;
-                width: 100%;
-            }
-            
-            #logout {
-                order: 2;
-                width: 100%;
-                padding: 12px;
-            }
+          
             
             #inputSection {
-                flex-direction: column;
+                flex-direction: row;
             }
             
             #submitBtn {
-                width: 100%;
-                height: 45px;
+                width: auto;
+                padding: 0.75rem;
+                height: auto;
             }
+
+          
         }
