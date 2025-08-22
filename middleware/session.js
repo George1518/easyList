@@ -1,22 +1,17 @@
-const session = require('express-session')
-const mongoStore = require('connect-mongo')
-const MongoStore = require('connect-mongo')
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
-module.exports = session(
-    {
-        secret: 'securekey',
-        resave: false,
-        saveUninitialized: false,
-        store: MongoStore.create({
-            mongoUrl: 'mongodb://127.0.0.1:27017/todo'
-        }),
-        cookie:
-        {
-            secure: false,
-
-            httpOnly: true,
-
-            maxAge: 1000 * 60 * 60
-        }
+module.exports = session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URI,  // ✅ Atlas instead of localhost
+        collectionName: 'sessions'
+    }),
+    cookie: {
+        secure: false, // set to true if using HTTPS in production
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 // 1 hour
     }
-)
+});
