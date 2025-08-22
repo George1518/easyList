@@ -68,7 +68,7 @@
         
         #addTask:focus {
             outline: none;
-            border-color: #ff9b00;;
+            border-color: #ff9b00;
         }
         
         #submitBtn {
