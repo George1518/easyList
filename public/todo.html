@@ -1,24 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>easyList</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="assests/letter-e.png" type="image/x-icon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>easyList</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="assests/letter-e.png" type="image/x-icon">
 </head>
-<body>
-    <div id="header">
-        <h1 id="h1">easyList</h1>
-           <i role="button" id="logout"  onclick="logout()"><img src="assests/logout.png"></i>
-    </div>
-    
-    <section id="inputSection">
-        <input type="text" id="addTask" placeholder="Enter your task" required>
-        <i role="button" id="submitBtn" type="submit" onclick="addTask()"><img src="assests/add.png"></i>
-    </section>
-    <section id="listContainer"></section>
+<body >
+  <!-- 🔮 Header -->
+  <div id="header">
+      <select id="themeSelector" onchange="applyTheme(this.value)">
+  <option value="orange">🟠</option>
+  <option value="purple">🟣</option>
+  <option value="blue">🔵</option>
+  <option value="red">🔴</option>
+  <option value="green">🟢</option>
+</select>
+    <h1 id="h1">easyList</h1>
+    <i role="button" id="logout"onclick="logout()">
+      <img src="assests/logout.png" alt="Logout">
+    </i>
+  </div>
 
-    <script src="script.js"></script>
+  <!-- 🔮 Input Section -->
+  <section id="inputSection">
+    <input type="text" id="addTask" placeholder="Enter your task" required>
+    <i role="button" id="submitBtn" onclick="addTask()">
+      <img  src="assests/add.png" alt="Add Task" id="addImg">
+    </i>
+  </section>
+
+  <!-- 🔮 Task List -->
+  <section id="listContainer"></section>
+
+  <script src="script.js"></script>
 </body>
 </html>

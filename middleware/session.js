@@ -1,3 +1,4 @@
+require('dotenv').config();
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
@@ -6,11 +7,11 @@ module.exports = session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URI,  // ✅ Atlas instead of localhost
+        mongoUrl: process.env.MONGO_URI , 
         collectionName: 'sessions'
     }),
     cookie: {
-        secure: false, // set to true if using HTTPS in production
+        secure: false, 
         httpOnly: true,
         maxAge: 1000 * 60 * 60 // 1 hour
     }

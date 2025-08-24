@@ -1,180 +1,283 @@
-   * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #fff8f0;
-            color: #333;
-            min-height: 100vh;
-            padding: 40px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-        }
-        
-        #header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        #h1 {
-            color: #ff9b00;
-            font-weight: 600;
-            font-size: 2.5rem;
-            flex-grow: 1;
-            text-align: center;
-        }
-        
-        #logout {
-            border: none;
-            border-radius: 100px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            order: 2;
-            
-        }
-        
-        #logout:hover {
-           
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-         #logout img  {
-            width: 40px;
-            height: 40px;
-        }
-        
-        #inputSection {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        
-        #addTask {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-            transition: border 0.3s;
-        }
-        
-        #addTask:focus {
-            outline: none;
-            border-color: #ff9b00;
-        }
-        
-        #submitBtn {
-           background-color: #ff7c253b;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            width: 50px;
-            height: 50px;
-            border-radius: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        #submitBtn:hover {
-            background-color: #ff7c2554;
-        }
-        
-        #submitBtn img {
-            width: 24px;
-            height: 24px;
-            filter: contrast(11.1);
-        }
-        
-        #listContainer {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-        
-        ul {
-            list-style-type: none;
-        }
-        
-        li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        li:last-child {
-            border-bottom: none;
-        }
-        
-        li div {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 5px;
-        }
-        
-        .checkbox {
-            width: 18px;
-            height: 18px;
-            accent-color:#ff9b00;
-            cursor: pointer;
-        }
-        
-        .button {
-            background: none;
-            border: none;
-            color: #ff9b00;
-            font-size: 16px;
-            cursor: pointer;
-            padding: 5px;
-            transition: color 0.3s;
-        }
-        
-        .button:hover {
-            color: #ff6a00;
-        }
-        
-        .emptyList {
-            color: #666;
-            text-align: center;
-            padding: 20px 0;
-            font-style: italic;
-        }
-        
-        @media (max-width: 600px) {
-            body {
-                padding: 30px 15px;
-            }
-            
-            #header {
-                flex-direction: row;
-                gap: 15px;
-            }
-            
-          
-            
-            #inputSection {
-                flex-direction: row;
-            }
-            
-            #submitBtn {
-                width: auto;
-                padding: 0.75rem;
-                height: auto;
-            }
+:root {
+  /* 🌈 Main colors */
+  --green: #4caf50;        /* fresh, natural green */
+  --purple: #9c27b0;       /* elegant, deep purple */
+  --red: #f44336;          /* warm, softer red */
+  --blue: #2196f3;         /* clean, friendly blue */
+  --orange: #ff9b00;       /* vibrant orange */
 
-          
-        }
+  /* ✨ Subtle button/background variants (translucent) */
+  --green-btn: #4caf5025;
+  --purple-btn: #9c27b025;
+  --red-btn: #f4433625;
+  --blue-btn: #2196f325;
+  --orange-btn: #ff9b0025;
+
+  /* ✨ Extra subtle tints for backgrounds */
+  --green-bg: #4caf5012;
+  --purple-bg: #9c27b012;
+  --red-bg: #f4433612;
+  --blue-bg: #2196f312;
+  --orange-bg: #ff9b0012;
+}
+
+/* === Base styles === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #faf9f6;  /* ☁️ much softer neutral background */
+  color: #333;
+  min-height: 100vh;
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* === Header === */
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 2.5rem;
+  flex-grow: 1;
+  text-align: center;
+  color: var(--orange); /* heading color stands out */
+}
+
+/* Logout button (icon-only, no bg) */
+#logout {
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: none;   /* 🔥 removed background */
+  padding: 6px;
+}
+#logout:hover {
+  transform: scale(1.05);
+}
+#logout img {
+  width: 40px;
+  height: 40px;
+}
+
+/* === Input section === */
+#inputSection {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+#addTask {
+  flex: 1;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border 0.3s;
+}
+#addTask:focus {
+  outline: none;
+  border-color: var(--orange);
+}
+
+#submitBtn {
+  background-color: var(--orange-btn);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+#submitBtn:hover {
+  background-color: var(--orange);
+}
+#submitBtn img {
+  width: 24px;
+  height: 24px;
+}
+
+/* === Task list === */
+#listContainer {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+li:last-child {
+  border-bottom: none;
+}
+li div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.75rem;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  /* accent-color: var(--orange); */
+}
+
+.button {
+  background: none;
+  border: none;
+  color: var(--orange);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
+  transition: color 0.3s;
+}
+.button:hover {
+  color: var(--red);
+}
+
+.emptyList {
+  color: #666;
+  text-align: center;
+  padding: 20px 0;
+  font-style: italic;
+}
+
+/* === Responsive === */
+@media (max-width: 600px) {
+  body {
+    padding: 30px 15px;
+  }
+  #header {
+    flex-direction: row;
+    gap: 15px;
+  }
+  #inputSection {
+    flex-direction: row;
+  }
+  #submitBtn {
+    width: auto;
+    padding: 0.75rem;
+    height: auto;
+  }
+}
+
+/* === Theme Utility Classes === */
+
+/* 🟢 Green */
+.bg-green   { background-color: var(--green-bg); }
+.text-green { color: var(--green); }
+.btn-green  { background-color: var(--green-btn); }
+.img-green  { filter: brightness(0) saturate(100%) invert(57%) sepia(93%) saturate(319%) hue-rotate(83deg) brightness(93%) contrast(89%); }
+ .acc-green {accent-color: var(--green);}
+/* 💜 Purple */
+.bg-purple   { background-color: var(--purple-bg); }
+.text-purple { color: var(--purple); }
+.btn-purple  { background-color: var(--purple-btn); }
+.img-purple  { filter: brightness(0) saturate(100%) invert(38%) sepia(74%) saturate(628%) hue-rotate(240deg) brightness(92%) contrast(91%); }
+ .acc-purple {accent-color: var(--purple);}
+/* 🔴 Red */
+.bg-red   { background-color: var(--red-bg); }
+.text-red { color: var(--red); }
+.btn-red  { background-color: var(--red-btn); }
+.img-red  { filter: brightness(0) saturate(100%) invert(39%) sepia(83%) saturate(746%) hue-rotate(344deg) brightness(97%) contrast(92%); }
+ .acc-red {accent-color: var(--red);}
+/* 🔵 Blue */
+.bg-blue   { background-color: var(--blue-bg); }
+.text-blue { color: var(--blue); }
+.btn-blue  { background-color: var(--blue-btn); }
+.img-blue  { filter: brightness(0) saturate(100%) invert(34%) sepia(99%) saturate(1053%) hue-rotate(186deg) brightness(95%) contrast(96%); }
+ .acc-blue {accent-color: var(--blue);}
+/* 🟠 Orange */
+.bg-orange   { background-color: var(--orange-bg); }
+.text-orange { color: var(--orange); }
+.btn-orange  { background-color: var(--orange-btn); }
+.img-orange  { filter: brightness(0) saturate(100%) invert(64%) sepia(97%) saturate(652%) hue-rotate(3deg) brightness(101%) contrast(102%); }
+.acc-orange {accent-color: var(--orange);}
+/* === Shared image coloring === */
+img.colored-icon {
+  filter: brightness(0) saturate(100%);
+  transition: filter 0.3s ease;
+}
+
+/* === Ultra Compact Theme Selector === */
+#themeSelector {
+  padding: 4px 20px 4px 6px;   /* very tight padding */
+  border: 1.5px solid var(--orange);
+  border-radius: 25px;         /* small pill */
+  font-size: 14px;             /* smaller emoji size */
+  background-color: #fff;
+  color: var(--orange);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  appearance: none; /* remove default arrow */
+
+  /* tiny arrow + lighter shadow */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='%23ff9b00' height='12' viewBox='0 0 24 24' width='12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  background-size: 12px;
+}
+
+/* Hover → light glow */
+#themeSelector:hover {
+  border-color: var(--red);
+  color: var(--red);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Focus → glowing outline */
+#themeSelector:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 4px var(--purple);
+}
+
+/* Options */
+#themeSelector option {
+  font-size: 14px;  /* emojis nice but compact */
+  padding: 4px;
+  text-align: center;
+}
+
+/* 📱 Mobile tweaks */
+@media (max-width: 600px) {
+  #themeSelector {
+    font-size: 12px;
+    padding: 3px 18px 3px 5px;
+    background-position: right 5px center;
+    background-size: 10px;
+  }
+  #themeSelector option {
+    font-size: 13px;
+    padding: 3px;
+  }
+}

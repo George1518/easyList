@@ -11,7 +11,6 @@ const authMiddleware = require('./middleware/authMiddleware');
 const app = express();
 const PORT = process.env.PORT || 1512;
 
-
 // Connect to DB
 connectDB();
 
@@ -48,6 +47,5 @@ app.use((req, res) => {
 // Global error handler
 app.use(errorHandler);
 
-app.listen(PORT, () => {
+
  app.listen(PORT, () => console.log(`✅ Server running on ${PORT}`));
-});

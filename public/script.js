@@ -5,11 +5,10 @@ async function loadTasks() {
   try {
     const res = await fetch('/api/tasks', {
       method: 'GET',
-      credentials: 'include' // send session cookie
+      credentials: 'include'
     });
 
     if (res.status === 401) {
-      // not logged in → back to login page
       window.location.href = '/login.html';
       return;
     }
@@ -25,52 +24,46 @@ async function loadTasks() {
 // RENDER TASKS TO DOM
 // =========================
 function renderTasks(tasks) {
-   const listContainer = document.getElementById('listContainer');
-   listContainer.innerHTML = ''; // clear old content
- 
-  if (tasks.length === 0)
-  {
-       listContainer.innerHTML = 'you list is empty'
+  const listContainer = document.getElementById('listContainer');
+  listContainer.innerHTML = '';
+
+  if (tasks.length === 0) {
+    listContainer.innerHTML = '<p class="emptyList">Your list is empty ✨</p>';
     return;
   }
 
- 
-
   const list = document.createElement('ul');
-  list.textContent = '';
   listContainer.appendChild(list);
 
   tasks.forEach(task => {
     const li = document.createElement('li');
-    li.textContent = task.task; // use correct field from model
-                const div = document.createElement("div");
+    li.textContent = task.task;
+    const div = document.createElement("div");
 
-    // delete button
+    const check = document.createElement("input");
+    check.type = "checkbox";
+    check.checked = task.completed === true;
+    check.classList.add("checkbox");
+    check.onchange = async () => {
+      await fetch(`/api/tasks/${task._id}`, {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({ completed: check.checked })
+      });
+    };
+
     const delBtn = document.createElement('button');
     delBtn.textContent = '❌';
-    delBtn.classList.add('button')
-             const check = document.createElement("input");
-                check.type = "checkbox";
-                check.checked = task.completed === true;
-                check.classList.add("checkbox");
-                
-                li.textContent = task.task;
-                check.onchange = async () => {
-                    await fetch(`/api/tasks/${task._id}`,
-                        {
-                            method: 'PUT',
-                            headers: {'Content-Type': 'application/json'},
-                             credentials: 'include',
-          
-                            body: JSON.stringify({completed: check.checked})
-                        }
-                    )
-                }
-                div.appendChild(check);
+    delBtn.classList.add('button');
     delBtn.onclick = () => deleteTask(task._id);
-     li.appendChild(div)
+
+    div.appendChild(check);
     div.appendChild(delBtn);
+    li.appendChild(div);
     list.appendChild(li);
+     const savedTheme = localStorage.getItem("theme") || "orange";
+  applyTheme(savedTheme);
   });
 }
 
@@ -87,12 +80,12 @@ async function addTask() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ task: text }) // ✅ match schema
+      body: JSON.stringify({ task: text })
     });
 
     if (res.ok) {
       input.value = '';
-      loadTasks(); // reload after adding
+      loadTasks();
     } else {
       alert('Failed to add task');
     }
@@ -112,7 +105,7 @@ async function deleteTask(id) {
     });
 
     if (res.ok) {
-      loadTasks(); // reload after delete
+      loadTasks();
     } else {
       alert('Failed to delete task');
     }
@@ -137,10 +130,44 @@ async function logout() {
 }
 
 // =========================
-// EVENT LISTENERS
+// THEME SWITCHER
 // =========================
-// document.getElementById('submitBtn').addEventListener('click', addTask);
-// document.getElementById('logout').addEventListener('click', logout);
+const themes = ["orange", "purple", "blue", "red", "green"];
 
-// Initial load
-loadTasks();
+function applyTheme(theme) {
+  const body = document.body;
+  const h1 = document.getElementById("h1");
+  const submitBtn = document.getElementById("submitBtn");
+  const logoutImg = document.querySelector("#logout img");
+  const addImg = document.querySelector("#submitBtn img");
+  const checkBoxes = document.querySelectorAll(".checkbox");
+
+  // reset old theme classes
+  themes.forEach(t => {
+    body.classList.remove(`bg-${t}`, `text-${t}`);
+    h1?.classList.remove(`text-${t}`);
+    submitBtn?.classList.remove(`btn-${t}`);
+    logoutImg?.classList.remove(`img-${t}`);
+    addImg?.classList.remove(`img-${t}`);
+    checkBoxes.forEach(cb => cb.classList.remove(`acc-${t}`));
+  });
+
+  // apply new theme
+  body.classList.add(`bg-${theme}`, `text-${theme}`);
+  h1?.classList.add(`text-${theme}`);
+  submitBtn?.classList.add(`btn-${theme}`);
+  logoutImg?.classList.add(`img-${theme}`);
+  addImg?.classList.add(`img-${theme}`);
+  void checkBoxes.offsetWidth;
+  checkBoxes.forEach(cb => cb.classList.add(`acc-${theme}`));
+
+  // save choice
+  localStorage.setItem("theme", theme);
+}
+
+// Load saved theme
+window.addEventListener("DOMContentLoaded", () => {
+
+    loadTasks();
+});
+
