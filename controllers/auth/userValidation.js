@@ -21,6 +21,10 @@ async function userValidation(req, res) {
     // you’re using sessions:
     req.session.userId = user._id;
 
+    
+
+ 
+
     // ✅ send response here
     res.json({ msg: `Login successful ${user.username} `});
   } catch (err) {

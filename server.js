@@ -9,7 +9,7 @@ const errorHandler = require('./middleware/errorHandler');
 const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
-const PORT = process.env.PORT || 1512;
+const PORT = process.env.PORT || 1518;
 
 // Connect to DB
 connectDB();
@@ -28,6 +28,7 @@ app.use('/register', require('./routes/registration.js'));
 
 // Protected routes (require auth)
 app.use('/api/tasks', authMiddleware, require('./routes/taskList.js'));
+app.use('/api/theme', authMiddleware, require('./routes/setTheme.js'));
 app.use('/users', authMiddleware, require('./routes/userList.js'));
 
 // Static files

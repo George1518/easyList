@@ -47,7 +47,7 @@ function renderTasks(tasks) {
     check.onchange = async () => {
       await fetch(`/api/tasks/${task._id}`, {
         method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({ completed: check.checked })
       });
@@ -62,8 +62,6 @@ function renderTasks(tasks) {
     div.appendChild(delBtn);
     li.appendChild(div);
     list.appendChild(li);
-     const savedTheme = localStorage.getItem("theme") || "orange";
-  applyTheme(savedTheme);
   });
 }
 
@@ -134,7 +132,7 @@ async function logout() {
 // =========================
 const themes = ["orange", "purple", "blue", "red", "green"];
 
-function applyTheme(theme) {
+async function applyTheme(theme) {
   const body = document.body;
   const h1 = document.getElementById("h1");
   const submitBtn = document.getElementById("submitBtn");
@@ -158,16 +156,44 @@ function applyTheme(theme) {
   submitBtn?.classList.add(`btn-${theme}`);
   logoutImg?.classList.add(`img-${theme}`);
   addImg?.classList.add(`img-${theme}`);
-  void checkBoxes.offsetWidth;
   checkBoxes.forEach(cb => cb.classList.add(`acc-${theme}`));
 
   // save choice
-  localStorage.setItem("theme", theme);
+
+
+  try {
+    const setTheme = await fetch(`/api/theme/`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ theme })
+    });
+
+
+
+
+  } catch (err) {
+    console.error('Error changing theme:', err);
+  }
+
 }
 
 // Load saved theme
 window.addEventListener("DOMContentLoaded", () => {
 
-    loadTasks();
+  loadTasks();
+
+  getTheme()
 });
+
+async function getTheme() {
+  const data = await fetch('/api/theme', { credentials: 'include' })
+
+  const theme = await data.json();
+
+  applyTheme(theme || 'orange');
+
+
+
+}
 
