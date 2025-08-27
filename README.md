@@ -6,18 +6,19 @@ Built with simplicity in mind – **log in, add tasks, mark them done, stay prod
 ---
 
 ## 🚀 Features
-- 🔑 **Authentication** – secure login & signup with sessions
-- 📋 **Task Management** – add, edit, delete, mark complete
-- 🎨 **Responsive UI** – clean orange-themed interface
-- 🛡️ **Protected Routes** – only logged-in users can access their tasks
-- ☁️ **Cloud Ready** – uses MongoDB Atlas for persistence
+- 🔑 **Authentication** – secure login & signup with sessions (passwords hashed with bcrypt)  
+- 📋 **Task Management** – add, delete, mark complete  
+- 🔢 **Task Counter** – shows total, completed, and pending tasks at a glance (e.g., *2/5 completed*)  
+- 🎨 **Customizable Themes** – multiple color themes + dark mode  
+- 🛡️ **Protected Routes** – only logged-in users can access their tasks  
+- ☁️ **Cloud Ready** – uses MongoDB Atlas for persistence  
 
 ---
 
 ## 🛠️ Tech Stack
 - **Backend:** Node.js, Express.js  
 - **Database:** MongoDB Atlas (Mongoose ODM)  
-- **Auth & Sessions:** express-session + connect-mongo  
+- **Auth & Sessions:** express-session + connect-mongo, bcrypt  
 - **Frontend:** HTML, CSS, Vanilla JS  
 
 ---
@@ -29,14 +30,13 @@ Built with simplicity in mind – **log in, add tasks, mark them done, stay prod
 
 ---
 
-
-
 ## ✨ Why easyList?
 This project demonstrates:
 - Full-stack development skills without a frontend framework  
-- Secure authentication & session handling  
+- Secure authentication & session handling with bcrypt  
 - REST API design and protected routes  
-- Clean, responsive UI design  
+- Clean, responsive UI design with multiple themes  
+- Progress tracking with task counters  
 
 ---
 
