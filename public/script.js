@@ -21,51 +21,6 @@ async function loadTasks() {
 }
 
 // =========================
-// RENDER TASKS TO DOM
-// =========================
-function renderTasks(tasks) {
-  const listContainer = document.getElementById('listContainer');
-  listContainer.innerHTML = '';
-
-  if (tasks.length === 0) {
-    listContainer.innerHTML = '<p class="emptyList">Your list is empty ✨</p>';
-    return;
-  }
-
-  const list = document.createElement('ul');
-  listContainer.appendChild(list);
-
-  tasks.forEach(task => {
-    const li = document.createElement('li');
-    li.textContent = task.task;
-    const div = document.createElement("div");
-
-    const check = document.createElement("input");
-    check.type = "checkbox";
-    check.checked = task.completed === true;
-    check.classList.add("checkbox");
-    check.onchange = async () => {
-      await fetch(`/api/tasks/${task._id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ completed: check.checked })
-      });
-    };
-
-    const delBtn = document.createElement('button');
-    delBtn.textContent = '❌';
-    delBtn.classList.add('button');
-    delBtn.onclick = () => deleteTask(task._id);
-
-    div.appendChild(check);
-    div.appendChild(delBtn);
-    li.appendChild(div);
-    list.appendChild(li);
-  });
-}
-
-// =========================
 // ADD TASK
 // =========================
 async function addTask() {
@@ -130,70 +85,184 @@ async function logout() {
 // =========================
 // THEME SWITCHER
 // =========================
-const themes = ["orange", "purple", "blue", "red", "green"];
+function setupThemePicker() {
+  const themeButton = document.querySelector('.theme-button');
+  const themePalette = document.querySelector('.theme-palette');
+  const colorOptions = document.querySelectorAll('.color-option');
+  
+  themeButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    themePalette.classList.toggle('open');
+  });
+  
+  document.addEventListener('click', (e) => {
+    if (!themePalette.contains(e.target) && e.target !== themeButton) {
+      themePalette.classList.remove('open');
+    }
+  });
+  
+  colorOptions.forEach(option => {
+    option.addEventListener('click', () => {
+      const theme = option.getAttribute('data-theme');
+      applyTheme(theme);
+      themePalette.classList.remove('open');
+    });
+  });
+}
 
 async function applyTheme(theme) {
-  const body = document.body;
-  const h1 = document.getElementById("h1");
-  const submitBtn = document.getElementById("submitBtn");
-  const logoutImg = document.querySelector("#logout img");
-  const addImg = document.querySelector("#submitBtn img");
-  const checkBoxes = document.querySelectorAll(".checkbox");
+  // reset all classes
+  document.body.className = '';
+  document.body.classList.add(`bg-${theme}`);
 
-  // reset old theme classes
-  themes.forEach(t => {
-    body.classList.remove(`bg-${t}`, `text-${t}`);
-    h1?.classList.remove(`text-${t}`);
-    submitBtn?.classList.remove(`btn-${t}`);
-    logoutImg?.classList.remove(`img-${t}`);
-    addImg?.classList.remove(`img-${t}`);
-    checkBoxes.forEach(cb => cb.classList.remove(`acc-${t}`));
-  });
+  const submitBtn = document.getElementById('submitBtn');
+  const logoutBtn = document.getElementById('logout');
+  const checkBoxes = document.querySelectorAll('.checkbox');
 
-  // apply new theme
-  body.classList.add(`bg-${theme}`, `text-${theme}`);
-  h1?.classList.add(`text-${theme}`);
-  submitBtn?.classList.add(`btn-${theme}`);
-  logoutImg?.classList.add(`img-${theme}`);
-  addImg?.classList.add(`img-${theme}`);
-  checkBoxes.forEach(cb => cb.classList.add(`acc-${theme}`));
-
-  // save choice
-
-
+  // save theme in DB
   try {
-    const setTheme = await fetch(`/api/theme/`, {
+    await fetch(`/api/theme/`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify({ theme })
     });
-
-
-
-
   } catch (err) {
     console.error('Error changing theme:', err);
   }
-
 }
-
-// Load saved theme
-window.addEventListener("DOMContentLoaded", () => {
-
-  loadTasks();
-
-  getTheme()
-});
 
 async function getTheme() {
-  const data = await fetch('/api/theme', { credentials: 'include' })
-
-  const theme = await data.json();
-
-  applyTheme(theme || 'orange');
-
-
-
+  try {
+    const res = await fetch('/api/theme', { credentials: 'include' });
+    const theme = await res.json();
+    applyTheme(theme || 'orange');
+  } catch (err) {
+    console.error('Error loading theme:', err);
+  }
 }
 
+// =========================
+// DARK MODE TOGGLE (localStorage)
+// =========================
+function setupDarkModeToggle() {
+  const darkModeToggle = document.querySelector('.dark-mode-toggle');
+  const icon = darkModeToggle.querySelector('i');
+  
+  darkModeToggle.addEventListener('click', () => {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.body.removeAttribute('data-theme');
+      icon.className = 'fas fa-moon';
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.body.setAttribute('data-theme', 'dark');
+      icon.className = 'fas fa-sun';
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+  
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.setAttribute('data-theme', 'dark');
+    icon.className = 'fas fa-sun';
+  }
+}
+
+// =========================
+// RENDER TASKS TO DOM
+// =========================
+function renderTasks(tasks) {
+  const listContainer = document.getElementById('listContainer');
+  listContainer.innerHTML = '';
+
+  if (tasks.length === 0) {
+    listContainer.innerHTML = `
+      <p class="emptyList">
+        <i class="fas fa-clipboard-list"></i>
+        Your list is empty. Add a task to get started!
+      </p>
+    `;
+    countList(0, 0);
+    return;
+  }
+
+  const list = document.createElement('ul');
+  listContainer.appendChild(list);
+
+  tasks.forEach(task => {
+    const li = document.createElement('li');
+    li.setAttribute('data-id', task._id);
+    
+    if (task.completed) {
+      li.classList.add('completed');
+    }
+
+    const taskText = document.createElement('span');
+    taskText.textContent = task.task;
+    taskText.classList.add('task-text');
+
+    const div = document.createElement('div');
+
+    const check = document.createElement('input');
+    check.type = 'checkbox';
+    check.checked = task.completed === true;
+    check.classList.add('checkbox');
+
+    check.addEventListener('change', async () => {
+      li.classList.toggle('completed', check.checked);
+      await fetch(`/api/tasks/${task._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ completed: check.checked })
+      });
+      countList();
+    });
+
+    const delBtn = document.createElement('button');
+    delBtn.innerHTML = '<i class="fas fa-trash"></i>';
+    delBtn.classList.add('button');
+    delBtn.addEventListener('click', () => deleteTask(task._id));
+
+    div.appendChild(check);
+    div.appendChild(taskText);
+    div.appendChild(delBtn);
+    li.appendChild(div);
+    list.appendChild(li);
+  });
+
+  countList();
+}
+
+// =========================
+// COUNT FUNCTION
+// =========================
+function countList() {
+  const countContainer = document.getElementById('countContainer');
+  const total = document.querySelectorAll('li').length;
+  
+  if (total === 0) {
+    countContainer.textContent = '';
+    return;
+  }
+  
+  const completed = document.querySelectorAll('.checkbox:checked').length;
+  countContainer.textContent = `${completed}/${total}`;
+}
+
+// =========================
+// INITIALIZE APP
+// =========================
+document.addEventListener('DOMContentLoaded', () => {
+  loadTasks();
+  getTheme();
+  setupThemePicker();
+  setupDarkModeToggle();
+  
+  document.getElementById('addTask').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      addTask();
+    }
+  });
+});

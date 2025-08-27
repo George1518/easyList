@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -9,7 +9,7 @@
 </head>
 <body >
   <!-- 🔮 Header -->
-  <div id="header">
+  <!-- <div id="header">
       <select id="themeSelector" onchange="applyTheme(this.value)">
   <option value="orange">🟠</option>
   <option value="purple">🟣</option>
@@ -17,23 +17,99 @@
   <option value="red">🔴</option>
   <option value="green">🟢</option>
 </select>
+
     <h1 id="h1">easyList</h1>
     <i role="button" id="logout"onclick="logout()">
       <img src="assests/logout.png" alt="Logout">
     </i>
+      <div id="countContainer"></div>
   </div>
 
   <!-- 🔮 Input Section -->
-  <section id="inputSection">
+  <!-- <section id="inputSection">
     <input type="text" id="addTask" placeholder="Enter your task" required>
     <i role="button" id="submitBtn" onclick="addTask()">
       <img  src="assests/add.png" alt="Add Task" id="addImg">
     </i>
-  </section>
+  </section> -->
 
   <!-- 🔮 Task List -->
-  <section id="listContainer"></section>
+  <!-- <section id="listContainer"></section>
+
 
   <script src="script.js"></script>
+</body>
+</html> --> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>easyList</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="shortcut icon" href="assests/letter-e.png" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-orange">
+  <!-- Modern Header -->
+  <div id="header">
+    <div class="logo-container">
+      <h1 id="h1">easyList</h1>
+    </div>
+    
+    <div class="header-controls">
+      <!-- Theme Picker -->
+      <div class="theme-picker">
+        <button class="theme-button">
+          <i class="fas fa-palette"></i>
+        </button>
+        <div class="theme-palette">
+          <div class="color-option orange" data-theme="orange"></div>
+          <div class="color-option purple" data-theme="purple"></div>
+          <div class="color-option blue" data-theme="blue"></div>
+          <div class="color-option red" data-theme="red"></div>
+          <div class="color-option green" data-theme="green"></div>
+          <div class="color-option pink" data-theme="pink"></div>
+          <div class="color-option teal" data-theme="teal"></div>
+          <div class="color-option indigo" data-theme="indigo"></div>
+          <div class="color-option cyan" data-theme="cyan"></div>
+          <div class="color-option amber" data-theme="amber"></div>
+        </div>
+      </div>
+      
+      <!-- Task Counter -->
+      <div id="countContainer"></div>
+      
+      <!-- Logout Button -->
+      <i role="button" id="logout" onclick="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+      </i>
+    </div>
+  </div>
+
+  <!-- Input Section -->
+  <section id="inputSection">
+    <input type="text" id="addTask" placeholder="Enter your task..." required>
+    <button id="submitBtn" onclick="addTask()">
+      <i class="fas fa-plus"></i>
+    </button>
+  </section>
+
+  <!-- Task List -->
+  <section id="listContainer">
+    <p class="emptyList">
+      <i class="fas fa-clipboard-list"></i>
+      Your list is empty. Add a task to get started!
+    </p>
+  </section>
+
+  <!-- Dark Mode Toggle -->
+  <button class="dark-mode-toggle">
+    <i class="fas fa-moon"></i>
+  </button>
+
+  <script src="script.js">
+  </script>
 </body>
 </html>
