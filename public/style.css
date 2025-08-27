@@ -439,4 +439,4 @@ li {
 .bg-teal { --primary: var(--teal); --primary-btn: var(--teal-btn); --primary-bg: var(--teal-bg); }
 .bg-indigo { --primary: var(--indigo); --primary-btn: var(--indigo-btn); --primary-bg: var(--indigo-bg); }
 .bg-cyan { --primary: var(--cyan); --primary-btn: var(--cyan-btn); --primary-bg: var(--cyan-bg); }
-.bg-amber { --primary: var(--amber); --primary-btn: var(--amber-btn); --primary-bg: var(--amber-bg); }
+.bg-amber { --primary: var(--amber); --primary-btn: var(--amber-btn); --primary-bg: var(--amber-bg);}
