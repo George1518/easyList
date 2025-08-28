@@ -244,7 +244,7 @@ document.getElementById('show-login').addEventListener('click', () => {
 document.getElementById('btn').addEventListener('click', async (e) => {
   e.preventDefault();
   
-  const username = document.getElementById('user').value;
+  const username = document.getElementById('user').value.trim().toLowerCase();
   const password = document.getElementById('pass').value;
 
   try {
